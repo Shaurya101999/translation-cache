@@ -58,16 +58,16 @@ and value is translated text
 # Screenshots
 
 **First call to API( its taking something 2s)**
-![eng to hindi text](assets\screenshots\2022-02-11.png "Title")
+![eng to hindi text](https://github.com/Shaurya101999/translation-cache/blob/master/assets/screenshots/2022-02-11.png "Title")
 
 **Calling again( now its taking 7ms)**
-![eng to hindi text](assets\screenshots\2022-02-11(3).png "Title")
+![eng to hindi text](https://github.com/Shaurya101999/translation-cache/blob/master/assets/screenshots/2022-02-11(3).png "Title")
 
 **Calling again for similar language (preCache)**
-![eng to gujarati text](assets\screenshots\2022-02-11(4).png "Title")
+![eng to gujarati text](https://github.com/Shaurya101999/translation-cache/blob/master/assets/screenshots/2022-02-11(4).png "Title")
 
 **If some field is empty**
-![empty text](assets\screenshots\2022-02-11(5).png "Title")
+![empty text](https://github.com/Shaurya101999/translation-cache/blob/master/assets/screenshots/2022-02-11(5).png "Title")
 
 **If language/ text is invalid**( then it will return same text )
-![eng to gujarati text](assets\screenshots\2022-02-11(6).png "Title")
+![eng to gujarati text](https://github.com/Shaurya101999/translation-cache/blob/master/assets/screenshots/2022-02-11(6).png "Title")
