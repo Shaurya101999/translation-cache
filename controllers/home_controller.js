@@ -27,8 +27,11 @@ module.exports.translate = (req, res) =>{
     translator(req.body.text, {from: sourceLanguageCode, to: targetLanguageCode}).then(response => {
         console.log(response.text);
         let saveData = req.body.text+':'+sourceLanguageCode+':'+targetLanguageCode ;
+        
+        // saving the data in redis used as cache or 3600 seconds
         client.setex(saveData, 3600, response.text);
         
+        // returning response
         return res.status(200).json({
             message : 'translation complete',
             data: response.text
@@ -41,6 +44,7 @@ module.exports.translate = (req, res) =>{
     })
 }
 
+// manual array for similar languages for pretext
 const similarLanguagesList=[
     ["hi","kn","bn","gu","pa","ta","te"],
     ["en","cy",],
@@ -54,17 +58,24 @@ function preCache(sourceLanguageCode, targetLanguageCode, text){
     for(let i=0;i<similarLanguagesList.length;i++){
         let index=similarLanguagesList[i].indexOf(targetLanguageCode);
         
-    // if language is not there in list then continue
+        // if language is not there in list then continue
         if(index==-1){
             continue;
         }
          
-       for(let j=0;j<similarLanguagesList[i].length;j++){
-           if(j!=index){
-            //    console.log(similarLanguagesList[i][j]);
+        // iterating in similar languages to given language
+        for(let j=0;j<similarLanguagesList[i].length;j++){
+            if(j!=index){
+                // console.log(similarLanguagesList[i][j]);
+                
+                // translating text to all similar languages and storing in redis used as cache
                 translator(text, {from: sourceLanguageCode, to: similarLanguagesList[i][j]}).then(response => {
                     console.log(response.text);
+                    
+                    // key
                     let saveData = text+':'+sourceLanguageCode+':'+similarLanguagesList[i][j] ;
+                    
+                    // saving key and val for 3600 secs
                     client.setex(saveData, 3600, response.text);
                 
                     console.log(`${similarLanguagesList[i][j]} => ${response.text}`)
