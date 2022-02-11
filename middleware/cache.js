@@ -6,14 +6,15 @@ const client = redis.createClient(redis_port);
 const isoCode = require('iso-639-1');
 
 module.exports.myCache = (req, res, next) => {
-    if(req.body.text.length == 0 || req.body.sourceLanguage.length == 0 || req.body.targetLanguage.length == 0){
-        return res.json(400, {
-            message: 'Please enter text or sourceLanguage or targetLanguage'
+    // console.log('For Test : ', req.body);
+    if(req.body===undefined || req.body.text.length == 0 || req.body.sourceLanguage.length == 0 || req.body.targetLanguage.length == 0){
+        return res.status(400).json({
+            message: 'Please enter all data that is text, sourceLanguage and targetLanguage'
         })
     }
 
     let reqText = req.body ; 
-    console.log('In cache')    
+    // console.log('In cache')    
     let targetLanguageCode = isoCode.getCode(reqText.targetLanguage)
     let sourceLanguageCode = isoCode.getCode(reqText.sourceLanguage) || 'en';
     
@@ -22,8 +23,8 @@ module.exports.myCache = (req, res, next) => {
     client.get(saveData , (err, data)=>{
         if(err) throw err;
         if(data !== null){
-            return res.json(200, {
-                message: 'text from cache',
+            return res.status(200).json({
+                message: 'translation complete',
                 data: data
             })
         }else{

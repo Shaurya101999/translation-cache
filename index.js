@@ -5,15 +5,18 @@ const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 8000 ;
 
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.json());
+
 // set up the view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(bodyParser.urlencoded({ extended: false}));
+// for accessing assets and views
 app.use(express.static('./assets'));
 app.use('/', require('./routes'));
 
-app.listen(port, function(err){
+module.exports = app.listen(port, function(err){
     if(err){
         console.log('Error in running the server');
     }
